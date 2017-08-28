@@ -1,0 +1,142 @@
+ <!-- Interval Demo -->
+<!-- Go to the last script tag -->
+
+<!DOCTYPE html>
+
+<html lang="en-us">
+					 
+  <head>
+   <meta charset="UTF-8">
+	  <title>Trivia</title>
+  <!-- Bootstrap CDN -->
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	</head>
+
+	<body>
+	<div class="panel panel-default" id="test" >
+       <div class="panel-heading"   id="timer">Count Down!</div>
+       <div  id="show-number" class="panel-body"></div>
+   </div>
+   <div id="results">       
+        <h4 id="wins">wins go here</h4>
+        <h4 id="losses">losses go here</h4>
+   </div>  
+ 
+   <form id="form">
+    <div id='firstQuestion'>
+		<h3>The _____ originated in Croatia.</h3>
+        <input type='radio' id='radio_1' name='1' value='a' />Necktie
+        <input type='radio' id='radio_2' name='1' value= 'b' />Ballpoint Pen
+        <input type='radio' id='radio_3' name='1' value= 'c' />Box Office
+	    <input type='radio' id='radio_4' name='1' value= 'd'/>Chain Saw
+    </div>
+    
+    <div id='secondQuestion'>
+	  <h3>What do you get if you shake whipping cream in a glass jar for 10 minutes?</h3>
+        <input type='radio' id='radio_5' name='2' value='a' />Cottage Cheese
+        <input type='radio' id='radio_6' name='2' value= 'b' />Whipped Cream
+        <input type='radio' id='radio_7' name='2' value= 'c' />Butter
+        <input type='radio' id='radio_8' name='2' value= 'd'/>Yogurt
+    </div>
+
+    <div id='thirdQuestion'>
+      <h3>Hawaiian Punch was originally developed in 1934 as a tropical flavored _______.</h3>
+        <input type='radio' id='radio_9' name='3' value='a' />Ice Cream Topping
+        <input type='radio' id='radio_10' name='3' value= 'b' />Sun Tan Lotion
+        <input type='radio' id='radio_11' name='3' value= 'c' />Dog Treat
+      <input type='radio' id='radio_12' name='3' value= 'd'/>Sugar Substitute
+    </div>
+
+    <div id='fourthQuestion'>
+      <h3>What was advertised in the world's first junk mail?</h3>
+        <input type='radio' id='radio_13' name='4' value='a' />Dating Service
+        <input type='radio' id='radio_14' name='4' value= 'b' />Weight Loss Pills
+        <input type='radio' id='radio_15' name='4' value= 'c' />Computer
+      <input type='radio' id='radio_16' name='4' value= 'd'/>Investment Newsletter
+    </div>
+
+    <div id='fifthQuestion'>
+      <h3>What temperature is the same in Celsius and Fahrenheit?</h3>
+        <input type='radio' id='radio_17' name='5' value='a' />+100
+        <input type='radio' id='radio_18' name='5' value= 'b' />0
+        <input type='radio' id='radio_19' name='5' value= 'c' />-40
+      <input type='radio' id='radio_20' name='5' value= 'd'/>40
+    </div>
+   </form>
+   
+<!--     <button id="submit">Submit Anwers</button> -->
+     <button type="button" id="submit" class="btn btn-info">Submit</button>
+
+   <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    
+	//  Interval Demonstration
+    //  Set our number counter to 100.
+    var number = 25;      //set number of seconds player has to finish the game
+    var answeredCorrectly = 0;
+    var answeredIncorrectly  = 0;
+    var correctAnswers = ['a','c','a','c','c'];
+    var playerAnswers = ['','','','',''];
+
+    
+   $("#submit").on("click",(function() {
+       console.log("in on click");
+       stop();
+      }));
+
+    function run() {
+      intervalId = setInterval(decrement, 1000);
+    }
+    
+    function decrement() {      
+      number--;                                         //  Decrease number by one.      
+      $("#show-number").html("<h3>" + number + "</h3>");    //  Show the number in the #show-number tag.
+      if (number === 0) {                              //  Once number hits zero...        
+        stop();                                        //  ...run the stop function.        
+        $("#show-number").html("<h3>Time's Up!</h3>");  //  Alert the user that time is up.
+        
+      }  
+    };
+
+    function stop() {
+      clearInterval(intervalId);                         //  Clears our intervalId
+      getPlayerAnswers();                                // tally the player's responses      
+      winsLosses();
+      $("#wins").text("You answered " + answeredCorrectly + " correctly." );
+      $("#losses").text("You answered " + answeredIncorrectly + " incorrectly.");
+      $("#results").show();
+    }
+
+    function getPlayerAnswers() {
+       $('input:radio:checked').each(function () {       
+        var $this = $(this),
+              id = $this.attr('id'),
+              value = $this.attr('value');
+              name = $this.attr('name');
+              playerAnswers[name - 1] = value;
+
+	  });
+   };
+
+    function winsLosses() {
+      for (var i = 0; i < playerAnswers.length; i++) {
+          if (playerAnswers[i] === correctAnswers[i]) {
+              answeredCorrectly = answeredCorrectly + 1;
+          }  else {
+             answeredIncorrectly = answeredIncorrectly + 1;
+		 }
+	  }
+	 }
+
+    //  Execute the run function.
+    run();
+
+    </script>
+
+  </body>
+
+</html>
+            
